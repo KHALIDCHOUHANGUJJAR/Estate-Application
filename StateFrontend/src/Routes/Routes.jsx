@@ -1,3 +1,4 @@
+import About from "../Pages/About";
 import Home from "../Pages/Home";
 import Profile from "../Pages/Profile";
 import SignIn from "../Pages/SignIn";
@@ -20,5 +21,8 @@ export const My_routes = [
     path: "/SignUp",
     element: <SignUp />,
   },
- 
+  {
+    path: "/About",
+    element: <About />,
+  },
 ];
