@@ -1,8 +1,11 @@
-
+import { Route, Routes } from "react-router-dom";
+import { My_routes } from "./Routes/Routes";
 export default function App() {
   return (
-    <div>
-    <h1 className="text-2xl font-bold text-center ">khalid</h1>
-    </div>
-  )
+    <Routes>
+      {My_routes.map(({ path, element }, index) => (
+        <Route key={index} path={path} element={element} />
+      ))}
+    </Routes>
+  );
 }
