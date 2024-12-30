@@ -1,4 +1,5 @@
 import About from "../Pages/About";
+import Dashboard from "../Pages/Dashboard";
 import Home from "../Pages/Home";
 import Profile from "../Pages/Profile";
 import SignIn from "../Pages/SignIn";
@@ -24,5 +25,9 @@ export const My_routes = [
   {
     path: "/About",
     element: <About />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
   },
 ];

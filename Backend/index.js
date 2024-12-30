@@ -31,7 +31,17 @@ const MongoDb = async () => {
 MongoDb();
 
 app.use("/test", UserRouters);
-app.use("/auth", authRouters);
+app.use("/api/auth", authRouters);
+
+app.use((err, req, res, next) => {
+  const statuscode = err.statusCode || 500;
+  const message = err.message || "internal server  error";
+  return res.status(statuscode).json({
+    success: false,
+    statuscode,
+    message,
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);

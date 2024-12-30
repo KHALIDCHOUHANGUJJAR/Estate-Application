@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
 
-const userScema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     userName: {
       type: String,
       required: true,
-      unique: true,
     },
     email: {
       type: String,
@@ -16,8 +15,16 @@ const userScema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    role: {
+      type: String,
+      enum: ["admin", "user"],
+    },
+    isVerified: {
+      type: String,
+      enum: ["admin", "user"],
+    },
   },
   { timestamps: true }
 );
-const User = mongoose.model("User", userScema);
+const User = mongoose.model("User", userSchema);
 export default User;
