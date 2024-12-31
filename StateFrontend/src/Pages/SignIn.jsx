@@ -1,14 +1,22 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-unsafe-optional-chaining */
+/* eslint-disable no-unused-vars */
+
 import { Link, useNavigate } from "react-router-dom";
 import { postReq } from "../api";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../Store/user.reducer";
 
-function SingIn() {
-  const [loading, setLoading] = useState(false);
+function SignIn() {
+  const { loading, error } = useSelector((state) => state.user); 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -17,27 +25,28 @@ function SingIn() {
 
   const token = localStorage.getItem("token");
 
-  const [istoken, setToken] = useState(token);
   const onSubmit = async (formData) => {
-    setLoading(true);
+    dispatch(signInStart());
     try {
       const response = await postReq("/auth/login", formData);
       const { token } = response?.data;
+
       localStorage.setItem("token", token);
       if (token) {
+        dispatch(signInSuccess(token));
         navigate("/dashboard");
       }
     } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+      dispatch(signInFailure(error.message || "Login failed"));
     }
   };
+
   useEffect(() => {
-    if (istoken) {
+    if (token) {
       navigate("/dashboard");
     }
-  });
+  }, [token, navigate]);
+
   return (
     <div className="p-3 max-w-lg mx-auto shadow-xl">
       <h1 className="text-3xl text-center font-bold my-7">Login</h1>
@@ -69,7 +78,7 @@ function SingIn() {
               required: "Password is required",
               minLength: {
                 value: 6,
-                message: "Password must be at least 8 characters",
+                message: "Password must be at least 6 characters",
               },
             })}
           />
@@ -85,7 +94,7 @@ function SingIn() {
           className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
           disabled={loading}
         >
-          {loading ? "Loging in..." : "Login"}{" "}
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <button
@@ -96,23 +105,20 @@ function SingIn() {
         </button>
       </form>
 
-      <div className="flex items-center justify-between">
-        <div className="flex items-center sm:text-xl text-sm gap-2 mt-5">
+      <div className="flex items-center justify-between mt-5">
+        <div className="flex items-center sm:text-xl text-sm gap-2">
           <div>Don't have an account?</div>
           <Link to="/SignUp">
-            <span className="text-blue-700  font-bold">Sign Up</span>
+            <span className="text-blue-700 font-bold">Sign Up</span>
           </Link>
         </div>
-          <span className="text-red-800 text-xl font-bold text-center">
-            OR{" "}
-          </span>
-          <button className="font-bold sm:uppercase text-sm lowercase">
-            {" "}
-            Forgot Password
-          </button>
+        <span className="text-red-800 text-xl font-bold text-center">OR</span>
+        <button className="font-bold sm:uppercase text-sm lowercase">
+          Forgot Password
+        </button>
       </div>
     </div>
   );
 }
 
-export default SingIn;
+export default SignIn;
