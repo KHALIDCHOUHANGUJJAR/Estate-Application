@@ -15,7 +15,7 @@ export const store = configureStore({
   reducer:myPersistReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // Disable serializable state check
+      serializableCheck: false, 
     }),
 });
 export const  perstStore = persistStore(store);

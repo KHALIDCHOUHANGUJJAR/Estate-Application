@@ -12,9 +12,10 @@ import {
   signInSuccess,
   signInFailure,
 } from "../Store/user.reducer";
+import OAth from "../Components/Auth/OAth";
 
 function SignIn() {
-  const { loading, error } = useSelector((state) => state.user); 
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -97,12 +98,7 @@ function SignIn() {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <button
-          type="button"
-          className="bg-red-700 text-white p-3 rounded-lg uppercase hover:bg-opacity-95 disabled:opacity-80"
-        >
-          Continue with Google
-        </button>
+        <OAth />
       </form>
 
       <div className="flex items-center justify-between mt-5">

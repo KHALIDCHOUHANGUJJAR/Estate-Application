@@ -17,7 +17,7 @@ function Dashboard() {
     if (!istoken) {
       navigate("/SingIn");
     }
-  },);
+  });
   return (
     <div>
       Dashboard

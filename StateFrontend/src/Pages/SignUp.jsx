@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { postReq } from "../api";
 import { useEffect, useState } from "react";
+import OAth from "../Components/Auth/OAth";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -21,7 +22,6 @@ function SignUp() {
     try {
       const response = await postReq("/auth/signup", formData);
       isloading(false);
-      console.log(response);
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
@@ -29,10 +29,10 @@ function SignUp() {
     }
   };
   useEffect(() => {
-    if (istoken) {
+    if (token) {
       navigate("/dashboard");
     }
-  });
+  }, [token, navigate]);
   return (
     <div className="p-3 max-w-lg mx-auto shadow-xl">
       <h1 className="text-3xl text-center font-bold my-7">SignUp</h1>
@@ -96,12 +96,7 @@ function SignUp() {
           {loading ? "signup..." : "sing up"}
         </button>
 
-        <button
-          type="button"
-          className="bg-red-700 text-white p-3 rounded-lg uppercase hover:bg-opacity-95 disabled:opacity-80"
-        >
-          Continue with Google
-        </button>
+        <OAth />
       </form>
 
       <div className="flex items-center gap-2 mt-5">
